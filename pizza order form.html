@@ -1,0 +1,106 @@
+<!DOCType Html>
+<html lang="en-US">
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <Meta charset="UTF-8">
+    <link rel="stylesheet" href="pizza order style.css">
+    <title>Pizza Order Form</title>
+</head>
+<script>
+    
+window.onload = function() {
+    var choices ={
+        'Pizza0':['Pizza1','Pizza2','Pizza3','Pizza4','Pizza5','Pizza6','Pizza7','Pizza8','Pizza9','Pizza10'],
+        'Pizza1':['Pizza2','Pizza3','Pizza4','Pizza5','Pizza6','Pizza7','Pizza8','Pizza9','Pizza10'],
+        'Pizza2':['Pizza3','Pizza4','Pizza5','Pizza6','Pizza7','Pizza8','Pizza9','Pizza10'],
+        'Pizza3':['Pizza4','Pizza5','Pizza6','Pizza7','Pizza8','Pizza9','Pizza10'],
+        'Pizza4':['Pizza5','Pizza6','Pizza7','Pizza8','Pizza9','Pizza10'],
+        'Pizza5':['Pizza6','Pizza7','Pizza8','Pizza9','Pizza10'],
+        'Pizza6':['Pizza7','Pizza8','Pizza9','Pizza10'],
+        'Pizza7':['Pizza8','Pizza9','Pizza10'],
+        'Pizza8':['Pizza9','Pizza10'],
+        'Pizza9':['Pizza10'],
+        'Pizza10':['Pizza1','Pizza2','Pizza3','Pizza4','Pizza5','Pizza6','Pizza7','Pizza8','Pizza9']
+    },    
+    choice1_select=document.querySelector('#choice1');
+    choice2_select=document.querySelector('#choice2');
+    choice3_select=document.querySelector('#choice3');
+    choice4_select=document.querySelector('#choice4');
+
+    //option buttons function
+    setOptions(choice1_select,Object.keys(choices));
+    setOptions(choice2_select,choices[choice1_select.value]);
+    setOptions(choice3_select,choices[choice2_select.value]);
+    setOptions(choice4_select,choices[choice3_select.value]);
+
+    //add eventlisteners to select and option buttons
+    choice1_select.addEventListener('change',function () {
+       setOptions(choice2_select,choices[choice1_select.value]);
+              
+    });
+
+    choice2_select.addEventListener('change',function () {
+       setOptions(choice3_select,choices[choice2_select.value]);
+              
+    });
+    choice3_select.addEventListener('change',function () {
+       setOptions(choice4_select,choices[choice3_select.value]);
+              
+    });
+   
+   function setOptions(dropdown,options) {
+       dropdown.innerHTML='';
+       options.forEach(function(value) {
+           dropdown.innerHTML+='<option name =" '+ value +'">'+ value + '</option>';
+           
+       });
+   }
+        
+
+};
+btnConfirm=document.querySelector('#confirm');
+function confirmSubmit() {
+    total=document.querySelector('#total');
+    txtQty1=parseInt(document.querySelector('#q0').value);
+    txtQty2=parseInt(document.querySelector('#q1').value);
+    txtQty3=parseInt(document.querySelector('#q2').value);
+    txtQty4=parseInt(document.querySelector('#q3').value);
+    orderedPizza=parseInt(document.querySelector('#orderPizza').value);
+    qtyTotal=parseInt(txtQty1+txtQty2+txtQty3+txtQty4);
+    if (orderedPizza>qtyTotal) {
+        t=orderedPizza -qtyTotal;
+        alert(t+'\t less than the order placed');
+    } else if (orderedPizza<qtyTotal) {
+        t=qtyTotal-orderedPizza;
+        alert(t+'\t greater than the order placed');
+    } else
+      total.innerHTML=qtyTotal;
+}
+</script>
+<body>
+    <div><center><h1>A4--- P I Z Z A---- SHOP</h1></center>
+    <hr><br><center><b>Total Number of Pizza Ordered:<input type='text' id='orderPizza' required></b></center><hr>
+    <span>
+        <div id='pizza-order'><h3>Order</h3>
+         Category 1: <select id="choice1"></select>
+        <p>Category 2: <select id="choice2"></select></p>
+        <p>Category 3: <select id="choice3"></select></p>
+        <p>Category 4: <select id="choice4"></select></p>
+    </span>
+    <span>
+        <h3>Stock</h3>
+        <p>-</p><p>-</p><p>-</p><p>-</p>
+    </span>
+    <span>
+        <h3>Request</h3>
+        <p><input type='text' id='q0' required>
+        <p><input type='text' id='q1' required>
+        <p><input type='text' id='q2' required>
+        <p><input type='text' id='q3' required>
+    </span>
+    </div><hr>
+    <center><b>Available Pizza:<label id='total'>-</label></b></center><hr>
+    <center><button id='confirm' onclick='confirmSubmit()'>Confirm & Submit</button></center>
+    </body></div>
+</body>
+</html> 
